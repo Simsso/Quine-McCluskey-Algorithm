@@ -57,6 +57,8 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="BooleanAlgebra.cs" />
+    <Compile Include="PetricksMethod.cs" />
+    <Compile Include="PrimeImplicant.cs" />
     <Compile Include="QuineMcCluskeyAlgorithm.cs" />
     <Compile Include="TruthTable.cs" />
     <Page Include="MainWindow.xaml">

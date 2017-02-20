@@ -82,7 +82,7 @@ namespace Quine_McCluskey_Algorithm
                 }
 
                 removeDoubles(trueRows);
-                return trueRows;
+                return PetricksMethod.RemoveNonEssentialPrimeImplicants(trueRows);
             }
         }
 
