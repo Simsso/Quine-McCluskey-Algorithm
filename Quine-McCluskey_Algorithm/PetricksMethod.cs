@@ -56,9 +56,79 @@ namespace Quine_McCluskey_Algorithm
             return result;
         }
 
+        // takes an equation like (K+L)(K+M)(L+N)(M+P)(N+Q)(P+Q)
+        // expands the components to KKLMNP+KKLMNQ+... and returns the shortest
         private static List<PrimeImplicant> getRequiredPrimeImplicants(List<List<PrimeImplicant>> andConnectedEquation)
         {
-            throw new NotImplementedException();
+            List<List<PrimeImplicant>> expanded = expand(andConnectedEquation);
+            if (expanded.Count == 0)
+            {
+                return null;
+            }
+            List<PrimeImplicant> shortest = expanded[0];
+            foreach (List<PrimeImplicant> term in expanded)
+            {
+                // remove duplicates
+                for (int i = 0; i < term.Count; i++)
+                {
+                    while (term.LastIndexOf(term[i]) != i)
+                    {
+                        term.RemoveAt(term.LastIndexOf(term[i]));
+                    }
+                }
+
+                if (shortest.Count > term.Count)
+                {
+                    shortest = term;
+                }
+            }
+            return shortest;
+        }
+
+        private static List<List<PrimeImplicant>> expand(List<List<PrimeImplicant>> b)
+        {
+            List<List<PrimeImplicant>> result = new List<List<PrimeImplicant>>();
+            if(b.Count <= 1)
+            {
+                for (int i = 0; i < b[0].Count; i++)
+                {
+                    result.Add(new List<PrimeImplicant>() { b[0][i] });
+                }
+            }
+            else
+            {
+                List<PrimeImplicant> head = b[0];
+                List<List<PrimeImplicant>> body = b;
+                body.Remove(head);
+
+                List<List<PrimeImplicant>> bodyExpanded = expand(body.Clone());
+
+                if (head.Count == 0)
+                {
+                    return bodyExpanded;
+                }
+
+                for (int i = 0; i < head.Count; i++)
+                {
+                    if (bodyExpanded.Count == 0)
+                    {
+                        List<PrimeImplicant> term = new List<PrimeImplicant>();
+                        term.Add(head[i]);
+                        result.Add(term);
+                    }
+                    else
+                    {
+                        for (int j = 0; j < bodyExpanded.Count; j++)
+                        {
+                            List<PrimeImplicant> term = new List<PrimeImplicant>();
+                            term.Add(head[i]);
+                            term.AddRange(bodyExpanded[j]);
+                            result.Add(term);
+                        }
+                    }
+                }
+            }
+            return result;
         }
 
         private static List<List<LogicState>> transpose(List<List<LogicState>> table)

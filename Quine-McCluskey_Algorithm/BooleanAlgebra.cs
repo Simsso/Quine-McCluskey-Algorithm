@@ -5,7 +5,7 @@ namespace Quine_McCluskey_Algorithm
 {
     static class BooleanAlgebra
     {
-        public static string And = "*", Or = "+", Not = "~";
+        public static string And = "*", Or = "+", Not = "!";
 
         public static string TruthTableToEquation(TruthTable table)
         {
